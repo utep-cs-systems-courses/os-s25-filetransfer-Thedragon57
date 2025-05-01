@@ -3,10 +3,12 @@
 # Echo client program
 import socket, sys, re, time
 sys.path.append("/Users/dylanburdick/Desktop/OS-Labs/os-s25-filetransfer-Thedragon57/lib/")       # for params
+sys.path.append("/Users/dylanburdick/Desktop/OS-Labs/s25-archiver-Thedragon57/Lab3") # for archiver
 import params
+import archiver, unArchiver
 
 switchesVarDefaults = (
-    (('-s', '--server'), 'server', "127.0.0.1:50001"),
+    (('-s', '--server'), 'server', "127.0.0.1:50000"),
     (('-d', '--delay'), 'delay', "0"),
     (('-?', '--usage'), "usage", False), # boolean (set if present)
     )
@@ -56,10 +58,14 @@ if delay != 0:
     time.sleep(int(delay))
     print("done sleeping")
 
+payload = b''
 while 1:
-    data = s.recv(1024).decode()
+    data = s.recv(1024)
+    payload += data
     print("Received '%s'" % data)
     if len(data) == 0:
+        print(payload)
+        unArchiver.unArchiver(payload)
         break
 print("Zero length read.  Closing")
 s.close()

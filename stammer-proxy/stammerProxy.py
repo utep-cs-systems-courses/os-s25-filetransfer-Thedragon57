@@ -8,7 +8,7 @@ import random
 
 import re
 
-sys.path.append("../lib")       # for params
+sys.path.append("/Users/dylanburdick/Desktop/OS-Labs/os-s25-filetransfer-Thedragon57/lib/")       # for params
 import params
 
 switchesVarDefaults = (

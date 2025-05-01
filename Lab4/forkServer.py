@@ -26,9 +26,20 @@ if paramMap['usage']:
 def chatWithClient(connAddr):  
     sock, addr = connAddr
     print(f'Child: pid={os.getpid()} connected to client at {addr}')
-    sock.send(b"hello")
-    time.sleep(0.25);       # delay 1/4s
-    sock.send(b"world")
+    '''
+    open a read only fd and send a attached data
+    while loop
+    close fd
+    '''
+    currentFile = os.open("/Users/dylanburdick/Desktop/OS-Labs/s25-archiver-Thedragon57/idk.z", os.O_RDONLY)
+    currentFileData = os.read(currentFile, 32)
+    while(currentFileData != b''):
+        
+        sock.send(currentFileData)
+        time.sleep(0.25);       # delay 1/4s
+        currentFileData = os.read(currentFile, 32)
+        
+    
     sock.shutdown(socket.SHUT_WR)
     sys.exit(0)                 # terminate child
 
